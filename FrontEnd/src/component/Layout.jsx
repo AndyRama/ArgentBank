@@ -4,6 +4,7 @@ import Home from '../pages/Home'
 import NavBar from './Navbar/Navbar'
 import Footer from './Footer/Footer'
 import SignIn from '../pages/SignIn/SignIn'
+import Profil from '../pages/Profil'
 
 function Layout() {
   return (
@@ -12,6 +13,7 @@ function Layout() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="/profil" element={<Profil />} />
       </Routes>
       <Footer />
     </div>
