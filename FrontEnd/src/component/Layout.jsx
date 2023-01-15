@@ -3,6 +3,7 @@ import React from 'react'
 import Home from '../pages/Home'
 import NavBar from './Navbar/Navbar'
 import Footer from './Footer/Footer'
+import SignIn from '../pages/SignIn/SignIn'
 
 function Layout() {
   return (
@@ -10,6 +11,7 @@ function Layout() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<SignIn />} />
       </Routes>
       <Footer />
     </div>
