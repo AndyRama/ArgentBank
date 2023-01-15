@@ -6,16 +6,28 @@ function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  const noEmail = submitted && !email
+  const noPassword = submitted && !password
 
   const handleChangeEmail = (event) => setEmail(event.target.value)
   const handleChangePassword = (event) => setPassword(event.target.value)
   const handleChangeRememberMe = () => setRememberMe(!rememberMe)
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setSubmitted(true)
+  }
+
+  const wrongEntries = submitted && email && password
+
   return (
     <main className="main sign-in bg-dark">
       <section className="sign-in-content">
         <IconUser className="sign-in-icon" />
         <h1>Sign In</h1>
-        <form action="" id="sign-in-form">
+        <form action="" id="sign-in-form" onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <label htmlFor="email">Username</label>
             <input
@@ -25,6 +37,7 @@ function SignIn() {
               value={email}
               onChange={handleChangeEmail}
             />
+            {noEmail && <small>Email is required</small>}
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
@@ -35,6 +48,7 @@ function SignIn() {
               value={password}
               onChange={handleChangePassword}
             />
+            {noPassword && <small>Password is required</small>}
           </div>
           <div className="input-remember">
             <input
@@ -47,6 +61,11 @@ function SignIn() {
           </div>
           <input type="submit" value="Sign In" className="sign-in-button" />
         </form>
+      </section>
+      <section>
+        {wrongEntries && (
+          <span className="input-alert--msg">Wrong Email or passsword</span>
+        )}
       </section>
     </main>
   )
