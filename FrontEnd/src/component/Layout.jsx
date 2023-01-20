@@ -12,8 +12,8 @@ function Layout() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<SignIn />} />
-        <Route path="/profil" element={<Profil />} />
+        <Route path="/Login" element={<SignIn />} />
+        <Route path="/Profil" element={<Profil />} />
       </Routes>
       <Footer />
     </div>

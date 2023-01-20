@@ -6,35 +6,18 @@ import './SignIn.scss'
 function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
 
   const noEmail = !email
   const noPassword = !password
 
+  const handleChangeEmail = (event) => setEmail(event.target.value)
+  const handleChangePassword = (event) => setPassword(event.target.value)
+  const handleChangeRememberMe = () => setRememberMe(!rememberMe)
+
   const handleLogin = (event) => {
     event.preventDefault()
-    const emailError = document.querySelector('.email.error-input')
-    const passwordError = document.querySelector('.password.error-input')
-
-    axios({
-      method: 'post',
-      url: 'http://localhost:3001/api/v1/user/login',
-      data: {
-        email,
-        password,
-      },
-    })
-      .then((result) => {
-        console.log(result)
-        if (result.data.error) {
-          emailError.innerHTML = result.data.error.email
-          passwordError.innerHTML = result.data.error.password
-        } else {
-          window.location = '/profil'
-        }
-      })
-      .catch((error) => console.log(error))
   }
-
   return (
     <main className="main sign-in bg-dark">
       <section className="sign-in-content">
@@ -46,8 +29,8 @@ function SignIn() {
             <input
               type="text"
               id="email"
-              // autoComplete="username"
-              onChange={(event) => setEmail(event.target.value)}
+              autoComplete="username"
+              onChange={handleChangeEmail}
               value={email}
             />
             {noEmail && <small>Email is required</small>}
@@ -57,16 +40,20 @@ function SignIn() {
             <input
               type="password"
               id="password"
-              // autoComplete="current-password"
-              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
+              onChange={handleChangePassword}
               value={password}
             />
             {noPassword && <small>Password is required</small>}
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
-            <label htmlFor="remember-me">Remember me</label>
+            <input
+              type="checkbox"
+              id="remember-me"
+              onChange={handleChangeRememberMe}
+            />
           </div>
+          <label htmlFor="remember-me">Remember me</label>
           <input type="submit" value="Sign In" className="sign-in-button" />
         </form>
       </section>
