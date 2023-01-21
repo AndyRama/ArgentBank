@@ -1,23 +1,35 @@
 import axios from 'axios'
-import { profileUrl } from '../../utils/apiUrls'
-import { token } from '../../utils/storage'
+import { loginUrl } from '../../utils/apiUrls'
+import { loginSucess, loginFailure } from '../actions/authAction'
+import {
+  setValueToSessionStorage,
+  setValueToLocalStorage,
+} from '../../utils/store'
 
-/**
- * PUT NEW USER NAME in API
- * @param   {string}  firstName   [new user firstName]
- * @param   {string}  lastName    [new user lastName]
- * @returns
- */
-
-function newProfile(firstName, lastName) {
-  return () => {
+export function Login(email, password, remenberMe) {
+  return (dispatch) => {
     axios
-      .put(
-        profileUrl,
-        { firstName, lastName },
-        { headers: { Authorization: `bearer ${token}` } }
-      )
-      .then((reponse) => {})
+      .post(loginUrl, { email, password })
+      .then((response) => {
+        dispatch(loginSucess(response.data.body))
+        if (remenberMe) {
+          setValueToLocalStorage('TOKEN', response.data.body.token)
+          setValueToLocalStorage(
+            'USER',
+            `${response.data.body.user.firstName} ${response.data.body.user.firstName}`
+          )
+        }
+        if (!remenberMe) {
+          setValueToSessionStorage('TOKEN', response.data.body.token)
+          setValueToLocalStorage(
+            'USER',
+            `${response.data.body.user.firstName} ${response.data.body.user.lastName}`
+          )
+        }
+        Window.location.replace('/profil')
+      })
+      .catch((error) => {
+        dispatch(loginFailure(error.message))
+      })
   }
 }
-export default newProfile

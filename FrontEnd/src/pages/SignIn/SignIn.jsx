@@ -1,29 +1,35 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import IconUser from '../../component/Icons/IconUser'
 import './SignIn.scss'
+import { Login } from '../../_store/middlewares/authMiddelware'
+
+import { userDispatch, useSelector } from 'react-redux'
 
 function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   const noEmail = !email
   const noPassword = !password
+  const dispatch = userDispatch()
 
   const handleChangeEmail = (event) => setEmail(event.target.value)
   const handleChangePassword = (event) => setPassword(event.target.value)
   const handleChangeRememberMe = () => setRememberMe(!rememberMe)
 
-  const handleLogin = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
+    dispatch(Login(email, password, rememberMe))
+    setSubmitted(true)
   }
   return (
     <main className="main sign-in bg-dark">
       <section className="sign-in-content">
         <IconUser className="sign-in-icon" />
         <h1>Sign In</h1>
-        <form action="" onSubmit={handleLogin} id="sign-in-form">
+        <form action="" onSubmit={handleSubmit} id="sign-in-form">
           <div className="input-wrapper">
             <label htmlFor="email">Username</label>
             <input
