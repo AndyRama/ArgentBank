@@ -6,9 +6,9 @@ const initialState = user
       isAuth: true,
       user,
       firstName: user.split(' ')[0],
-      lastName: user.split(' '),
+      lastName: user.split(' ')[1],
     }
-  : { isAuth: false, user: null, firstName: '', lastName: '' }
+  : { isAuth: false, user: null, firstName: ' ', lastName: ' ' }
 
 export const authReducer = (state = initialState, action) => {
   const { type, payload } = action
@@ -19,6 +19,19 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isAuth: true,
         user: payload.user,
+      }
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        isAuth: false,
+        user: null,
+        error: payload.error,
+      }
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isAuth: false,
+        user: null,
       }
     default:
       return state

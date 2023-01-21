@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import IconUser from '../../component/Icons/IconUser'
 import './SignIn.scss'
-import { Login } from '../../_store/middlewares/authMiddelware'
+import { login } from '../../_store/middlewares/authMiddelware'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -11,8 +11,8 @@ function SignIn() {
   const [rememberMe, setRememberMe] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
-  const noEmail = !email
-  const noPassword = !password
+  const noEmail = submitted && !email
+  const noPassword = submitted && !password
   const dispatch = useDispatch()
 
   const handleChangeEmail = (event) => setEmail(event.target.value)
@@ -21,9 +21,16 @@ function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    dispatch(Login(email, password, rememberMe))
+    dispatch(login(email, password, rememberMe))
     setSubmitted(true)
   }
+
+  const auth = (state) => state.authReducer
+
+  const authUser = useSelector(auth)
+  console.log(authUser)
+  console.log(authUser.error)
+
   return (
     <main className="main sign-in bg-dark">
       <section className="sign-in-content">

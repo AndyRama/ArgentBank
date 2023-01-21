@@ -6,27 +6,29 @@ import {
   setValueToLocalStorage,
 } from '../../utils/store'
 
-export function Login(email, password, remenberMe) {
+export function login(email, password, remenberMe) {
   return (dispatch) => {
     axios
       .post(loginUrl, { email, password })
       .then((response) => {
         dispatch(loginSucess(response.data.body))
+
         if (remenberMe) {
           setValueToLocalStorage('TOKEN', response.data.body.token)
-          setValueToLocalStorage(
-            'USER',
-            `${response.data.body.user.firstName} ${response.data.body.user.firstName}`
-          )
-        }
-        if (!remenberMe) {
-          setValueToSessionStorage('TOKEN', response.data.body.token)
           setValueToLocalStorage(
             'USER',
             `${response.data.body.user.firstName} ${response.data.body.user.lastName}`
           )
         }
-        Window.location.replace('/profil')
+
+        if (!remenberMe) {
+          setValueToSessionStorage('TOKEN', response.data.body.token)
+          setValueToSessionStorage(
+            'USER',
+            `${response.data.body.user.firstName} ${response.data.body.user.lastName}`
+          )
+        }
+        window.location.replace('/profil')
       })
       .catch((error) => {
         dispatch(loginFailure(error.message))
