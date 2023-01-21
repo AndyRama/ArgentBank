@@ -3,7 +3,7 @@ import IconUser from '../../component/Icons/IconUser'
 import './SignIn.scss'
 import { Login } from '../../_store/middlewares/authMiddelware'
 
-import { userDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 function SignIn() {
   const [email, setEmail] = useState('')
@@ -13,7 +13,7 @@ function SignIn() {
 
   const noEmail = !email
   const noPassword = !password
-  const dispatch = userDispatch()
+  const dispatch = useDispatch()
 
   const handleChangeEmail = (event) => setEmail(event.target.value)
   const handleChangePassword = (event) => setPassword(event.target.value)
